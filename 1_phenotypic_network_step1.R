@@ -1,4 +1,5 @@
 ## step 1 = adjust for individual id so we can use dive as our unit of analysis
+## modified from wilkins 2015 https://doi.org/10.1098/rspb.2015.1574
 
 library(dplyr)
 library(lme4)
