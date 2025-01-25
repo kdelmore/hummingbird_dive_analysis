@@ -1,3 +1,6 @@
+## example script used to generate bootstrapped values for rthu
+## ran this on hpc and 10 versions of it to save time
+
 library(lme4)
 library(data.table)
 library(qgraph) 
@@ -6,8 +9,6 @@ library(dplyr)
 
 ## bring in correlation matrix from phenotypic_network_1.R
 cor.orig <- read.csv("rthu_cov1_rand_qnorm_july_24_2023_add_dopp_w1.csv") ## generated in phenotypic_network_1.R
-#cor.orig <- read.csv("bchu_cov1_rand_apr6_2023.csv") ## generated in phenotypic_network_1.R
-#cor.orig <- read.csv("hyb_cov1_rand_apr6_2023.csv") ## generated in phenotypic_network_1.R
 cor.orig <- as.matrix(cor.orig)
 
 ## bring in raw data for bootstrapping
@@ -70,7 +71,5 @@ lower.cor=apply(boot.corr, c(1,2), quantile, probs=c(0.025))
 upper.cor=apply(boot.corr, c(1,2), quantile, probs=c(0.975))
 boot.cor.output = list(orig.cor=cor.orig,avg.cor=avg.cor,lower.cor=lower.cor,upper.cor=upper.cor)
 
-#saveRDS(boot.cor.output, file="10_rthu.RData")
-#saveRDS(boot.cor.output, file="10_bchu.RData")
 saveRDS(boot.cor.output, file="1_boot.cor.output_rthu.RData")
 saveRDS(boot.corr,file="1_boot.corr_rthu.RData")
