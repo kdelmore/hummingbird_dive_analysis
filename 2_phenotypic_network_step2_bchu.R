@@ -1,3 +1,6 @@
+## example script used to generate bootstrapped values for bchu
+## ran this on hpc and 10 versions of it to save time
+
 library(lme4)
 library(data.table)
 library(qgraph) 
@@ -24,13 +27,7 @@ dat0$W2_length <- dat0$W2End_Relative_to_z.0-dat0$W2Start_Relative_to_z.0
 dat0 <- dat0 %>% select(-contains("End"))
 
 ## choose taxon and have to remove some for rubies
-#dat0 <- subset(dat0,dat0$Taxon=="rthu") ## 29 dives and 25 variables
-#dat0 <- dat0[,-c(28:33)] ## removing x because rubies dont have it
-#dat0 <- dat0 %>% select(-contains("W1")) ## because a lot are missing
-
-dat0 <- subset(dat0,dat0$Taxon=="bchu") ## 29 dives and 35 variables
-#dat0 <- subset(dat0,dat0$Taxon=="hyb") ## 33 dives and 40 variables
-
+dat0 <- subset(dat0,dat0$Taxon=="bchu") 
 
 ## get confidence intervals for bootstraps of correlation matrix
 t=1000 # 100000 is what they used; number of iterations for bootstrapping, play with the number of iterations to make sure the network topology stabilizes (for our paper we used 100k to be certain of a single topology)
@@ -72,7 +69,5 @@ lower.cor=apply(boot.corr, c(1,2), quantile, probs=c(0.025))
 upper.cor=apply(boot.corr, c(1,2), quantile, probs=c(0.975))
 boot.cor.output = list(orig.cor=cor.orig,avg.cor=avg.cor,lower.cor=lower.cor,upper.cor=upper.cor)
 
-#saveRDS(boot.cor.output, file="10_rthu.RData")
-#saveRDS(boot.cor.output, file="10_bchu_1.RData")
 saveRDS(boot.cor.output, file="1_boot.cor.output_bchu_1.RData")
 saveRDS(boot.corr,file="1_boot.corr_bchu_1.RData")
