@@ -125,7 +125,7 @@ ruby_df$angle <- gsub(".x","",ruby_df$angle)
 ruby_df$angle <- gsub(".y","",ruby_df$angle)
 ruby_df$angle <- as.numeric(ruby_df$angle)
 
-write.table(data,"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis/color_by_angle.csv",sep=",",row.names = F)
+write.table(data,"./output/color_by_angle.csv",sep=",",row.names = F)
 
 ## plot
 vars <- ruby_df[,c(2,4:7,20)]
