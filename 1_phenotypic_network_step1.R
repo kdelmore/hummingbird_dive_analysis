@@ -6,7 +6,7 @@ library(lme4)
 quantNorm = function(x){qnorm(rank(x, ties.method = "average")/(length(x)+1))}
 
 ## load data, remove some variables and estimate others
-dat0 <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/dive_kinematics_july_04_2023.csv")
+dat0 <- read.csv("./input/dive_kinematics_july_04_2023.csv")
 dat0$Male_ID <- as.factor(dat0$Male_ID)
 dat0 <- dat0[,-c(3)] ## get rid of dive number
 dat0 <- dat0[,-18] ## get rid of Dopp.1
