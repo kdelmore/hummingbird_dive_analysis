@@ -1,7 +1,7 @@
 library(circular)
 
 ## load data
-angles <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis/female_head_angle_24062023.csv")
+angles <- read.csv("./input/female_head_angle_24062023.csv")
 
 ## when working with bchu
 temp <- subset(angles,angles$t_relative_z>-0.49)
