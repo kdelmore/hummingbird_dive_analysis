@@ -1,5 +1,6 @@
 ## example script used to generate bootstrapped values for rthu
 ## ran this on hpc and 10 versions of it to save time
+## modified from wilkins 2015 https://doi.org/10.1098/rspb.2015.1574
 
 library(lme4)
 library(data.table)
