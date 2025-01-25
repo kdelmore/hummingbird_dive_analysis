@@ -1,7 +1,7 @@
 library(circular)
 
 ## load data
-angles <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis/male_head_angles_dives_24112024.csv")
+angles <- read.csv("./input/male_head_angles_dives_24112024.csv")
 angles$linear_diff <- abs(angles$AngletoFem-angles$AngletoSun)
 
 ## has to be in front
