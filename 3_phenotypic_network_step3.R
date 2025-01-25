@@ -1,8 +1,5 @@
-## was wondering if temporal variables were affecting redundancy analyses
-## reran removing them (this retained female traits)
-## test <- nodes[-c(1,2,4,6,8,9,12,15,16,19,20,23,27,28,29),-c(1,2,4,6,8,9,12,15,16,19,20,23,27,28,29)] ## ruby
-## test <- nodes[-c(1,2,4,6,8,9,12,15,16,19,20,23,27,31,32,33,34),-c(1,2,4,6,8,9,12,15,16,19,20,23,27,31,32,33,34)] ## bchu
-## similar results 0.35 and 0.12 for ruby and 0.36 and 0.088 for bchu (avg corr and edge density)
+## step 3 = use bootraps to generate final figures
+## modified from wilkins 2015 https://doi.org/10.1098/rspb.2015.1574
 
 library(lme4)
 library(data.table)
@@ -10,25 +7,16 @@ library(qgraph)
 library(RColorBrewer)
 library(dplyr)
 library(abind)
-setwd("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/phenotype_2_output/wdopp/")
-setwd("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/phenotype_2_output/wdopp_w1/") ## for rthu
 
 ## bring in correlation matrix from phenotypic_network_1.R
-#cor.orig <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/hyb_cov1_rand_qnorm_july_24_2023.csv") ## generated in phenotypic_network_1.R
-#cor.orig <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_july_24_2023.csv") ## generated in phenotypic_network_1.R
-#cor.orig <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_remove_july_24_2023.csv") ## generated in phenotypic_network_1.R
-#cor.orig <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/hyb_cov1_rand_qnorm_remove_july_24_2023.csv") ## generated in phenotypic_network_1.R
 cor.orig <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_july_24_2023_add_dopp.csv") ## generated in phenotypic_network_1.R
 cor.orig <- read.csv("C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/rthu_cov1_rand_qnorm_july_24_2023_add_dopp_w1.csv") ## generated in phenotypic_network_1.R
 
 cor.orig <- as.matrix(cor.orig)
 
-## bring in boot.corr.output from phenotypic_network_1.R
-#files = list.files (pattern="*boot.corr_hyb.RData")
+## bring in boot.corr.output from phenotypic_network_2.R
 files = list.files (pattern="*boot.corr_bchu.RData")
 files = list.files (pattern="*boot.corr_rthu.RData")
-#files = list.files (pattern="*_boot.cor._bchu_remove.RData")
-#files = list.files (pattern="*_boot.cor._hyb_remove.RData")
 
 for (i in seq_along(files)) {
   if (i == 1){
@@ -145,18 +133,8 @@ Q<-qgraph( nodes,color=clrs,layout=lay,layout.par=lay.params,labels=nombres,
            minimum=min.edge,vsize=nscale,vsize=nscale,label.norm=lab.length,
            fade=fade.TF, shape=shps,label.scale=T,negCol=neg.color,posCol=pos.color,label.color=1,cut=0,negDashed=T)
 
-savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/hyb_cov1_rand_qnorm_july_24.png"
-savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_july_24.png"
-savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/hyb_cov1_rand_qnorm_remove_july_24.png"
-savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_remove_july_24.pdf"
-savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/rthu_cov1_rand_qnorm_july_24.pdf"
 savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_july_24_wdopp.pdf"
-savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/bchu_cov1_rand_qnorm_july_24_wdopp_minusX.pdf"
 savefile<-"C:/Users/kirad/Dropbox/Texas/Projects/hummingbirds/analysis_july24/rthu_cov1_rand_qnorm_july_24_wdopp_w1.pdf"
-
-# png(savefile,width=8,height=4, units="in",res=600)
-# plot(Q)
-# dev.off()
 
 pdf(savefile,width=4.5,height=4.5)
 plot(Q)
@@ -176,49 +154,6 @@ shps = clrs
 as.filt=assortment.discrete(abs(nodes),shps,SE=TRUE)
 as.filt #assortativity of filtered data
 
-# rthu
-# $r
-# [1] 0.209165
-# 
-# $se
-# [1] 0.090164
-# 
-# $mixing_matrix
-# #fde725    #3b528b    #5ec962        ai
-# #fde725 0.09003127 0.09384659 0.09697058 0.2808484
-# #3b528b 0.09384659 0.16813916 0.07058385 0.3325696
-# #5ec962 0.09697058 0.07058385 0.21902755 0.3865820
-# bi      0.28084843 0.33256960 0.38658197 1.0000000
-
-# bchu
-# 
-# $r
-# [1] 0.46852
-# 
-# $se
-# [1] 0.1139061
-# 
-# $mixing_matrix
-# #fde725    #3b528b    #5ec962        ai
-# #fde725 0.09042622 0.00931870 0.04141068 0.1411556
-# #3b528b 0.00931870 0.04421105 0.05800001 0.1115298
-# #5ec962 0.04141068 0.05800001 0.64790396 0.7473146
-# bi      0.14115560 0.11152975 0.74731465 1.0000000
-
-# bchu wout x
-# $r
-# [1] 0.4133164
-# 
-# $se
-# [1] 0.1288234
-# 
-# $mixing_matrix
-# #fde725    #3b528b    #5ec962        ai
-# #fde725 0.14861650 0.01531539 0.05664756 0.2205795
-# #3b528b 0.01531539 0.07266135 0.09226130 0.1802380
-# #5ec962 0.05664756 0.09226130 0.45027364 0.5991825
-# bi      0.22057945 0.18023804 0.59918251 1.0000000
-
 #   * This is used to calculate the random expected assortativity
 
 assort.nodeperm.orig=vector(length=1000)
@@ -233,13 +168,6 @@ assort.nodeperm.filt
 #P-value as the number of times node-permutation lead to observed level of assortment.
 p.assort=length(which(assort.nodeperm.filt>=as.filt$r))/1000
 p.assort # p-value (<<.001)
-
-## rthu
-## [1] 0.016
-## bchu
-## [1] 0 ## none of the perms are higher than this
-## bchu wout X
-## [1] 0.003
 
 #####
 # Plot assortativity measures of node permutation and empirical correlation
@@ -260,22 +188,8 @@ points(as.filt$r,8,pch=25,col=1,bg=1)
 
 (avg.cor.full<-mean(abs(nodes[which(upper.tri(nodes)&nodes!=0)])))
 
-## rthu
-## [1] 0.4458467
-## bchu
-## [1] 0.3807175
-## bchu wout X
-## [1] 0.3834188
-
 ### Edge density for full, filtered network
 (edge.density.full<-length(nodes[upper.tri(nodes)&nodes!=0]) /length(which(upper.tri(nodes))) )
-
-## rthu
-## [1] 0.3829133
-## bchu
-## [1] 0.0855615
-## bchu wout X
-## [1] 0.07142857
 
 ## add jaccards
 ## number of edges contained in both networks, divided by all edges contained in either or both networks
